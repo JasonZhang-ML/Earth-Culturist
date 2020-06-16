@@ -18,6 +18,5 @@ public class Forest_test : MonoBehaviour
     {
         // TreeTransform.TransformDirection();
         TreeTransform.transform.localScale += scaleChange;
-        
     }
 }
