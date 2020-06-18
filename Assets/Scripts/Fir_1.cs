@@ -13,7 +13,7 @@ public class Fir_1 : MonoBehaviour
         player = GameObject.FindWithTag("Trees");
         // Debug.Log(player);
         // TreeTransform = GetComponent<Transform>();
-        scaleChange = new Vector3(0.1f, 0.1f, 0.1f);
+        scaleChange = new Vector3(0.01f, 0.01f, 0.01f);
     }
 
     // Update is called once per frame
