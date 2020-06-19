@@ -6,6 +6,8 @@ using Random = UnityEngine.Random;
 
 public class Controller : MonoBehaviour
 {
+    public float S1, S2, S3, S4, S5 = 0f;
+    private float unit_1,unit_2,unit_3,unit_4,unit_5 = 40f; 
     public string eventID;
     public static int trackNum = 5; 
 
@@ -78,6 +80,25 @@ public class Controller : MonoBehaviour
         targetRenders[targetType].material.color = targetColor;
         Invoke("TargetReset", 0.1f);
         Debug.Log("Hit");
+        switch (targetType)
+        {
+            case 0: S1 += unit_1 * 0.01f; break;
+            case 1: S2 += unit_2 * 0.01f; break;
+            case 2: S3 += unit_3 * 0.01f; break;
+            case 3: S4 += unit_4 * 0.01f; break;
+            case 4: S5 += unit_5 * 0.01f; break;
+            default: break;
+        }
+        Update_Scores(S1, S2, S3, S4, S5);
+    }
+
+    void Update_Scores(float S1,float S2,float S3,float S4,float S5)
+    {        
+        Earth_Color._instance.ground_score = S1;
+        Earth_Color._instance.water_score = S2;
+        Forest_Change._instance.forest_score = S3;
+        Animal_Scaling._instance.animal_score = S4;
+        City_Change._instance.city_score = S5;
     }
 
     private void LosePoint(int targetType) {
