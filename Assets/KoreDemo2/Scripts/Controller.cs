@@ -81,7 +81,7 @@ public class Controller : MonoBehaviour
     }
 
     private void LosePoint() {
-
+        
     }
 
     private void MusicGameInit() {
@@ -191,7 +191,6 @@ public class Controller : MonoBehaviour
                 TimingSheet_NoteSpace.Add(new SliderTiming(aTime, eTime));
                 break;
         }
-        
 
         //slider.GenerateSlider(noteNo, slocation[noteNo], srotation);
 
