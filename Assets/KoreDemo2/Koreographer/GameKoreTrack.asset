@@ -14,14 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mEventID: TracksEvent
   mEventList:
-  - mStartSample: 44100
-    mEndSample: 44100
   - mStartSample: 88200
     mEndSample: 88200
-  - mStartSample: 154350
-    mEndSample: 154350
+  - mStartSample: 176400
+    mEndSample: 176400
   - mStartSample: 220500
     mEndSample: 220500
+  - mStartSample: 308700
+    mEndSample: 308700
+  - mStartSample: 352800
+    mEndSample: 352800
+  - mStartSample: 396900
+    mEndSample: 396900
   _SerializedPayloadTypes: []
   _ColorPayloads: []
   _ColorPayloadIdxs: 

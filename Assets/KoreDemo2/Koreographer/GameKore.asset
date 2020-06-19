@@ -15,7 +15,7 @@ MonoBehaviour:
   mSourceClip: {fileID: 8300000, guid: b474bf2b17fbc52439263e13eb0c2021, type: 3}
   mAudioFilePath: 
   mSampleRate: -1
-  mIgnoreLatencyOffset: 0
+  mIgnoreLatencyOffset: 1
   mTempoSections:
   - sectionName: New Section
     startSample: 0

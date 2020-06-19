@@ -9,10 +9,10 @@ public class Controller : MonoBehaviour
     public string eventID;
     public static int trackNum = 5; 
 
-    public static float sliderLength = 0.4f;
+    public static float sliderLength = 0.2f;
     public static float trackLength = 4f;
 
-    public static float sliderSpeed = 0.04f;  // x position unity per frame
+    public static float sliderSpeed = 0.05f;  // x position unity per frame
 
     static float arriveTimeConstant = (trackLength - 2 * sliderLength) / sliderSpeed;
     static float leaveTimeConstant = trackLength / sliderSpeed;
@@ -46,6 +46,8 @@ public class Controller : MonoBehaviour
     Quaternion srotation = Quaternion.Euler(0f, 0f, -90f);
     Slider slider; 
     List<SliderTiming> TimingSheet_NotePair1 = new List<SliderTiming>();
+    List<SliderTiming> TimingSheet_NotePair2 = new List<SliderTiming>();
+    List<SliderTiming> TimingSheet_NoteSpace = new List<SliderTiming>();
 
 
     // Start is called before the first frame update
@@ -74,8 +76,8 @@ public class Controller : MonoBehaviour
     private void EarnPoint(int targetType) {
         Color targetColor = new Color(255f, 255f, 255f, 0.8f);
         targetRenders[targetType].material.color = targetColor;
-        Invoke("TargetReset", 0.2f);
-        Debug.Log("Hit");
+        Invoke("TargetReset", 0.1f);
+        //Debug.Log("Hit");
     }
 
     private void LosePoint() {
@@ -90,29 +92,70 @@ public class Controller : MonoBehaviour
             tracks[index] = GameObject.Find(trackName);
             targets[index] = GameObject.Find(targetName);
             targetRenders[index] = targets[index].GetComponent<MeshRenderer>();
-            //trackRenders[index] = tracks[index].GetComponent<MeshRenderer>();
         }
 
         /* Init slider*/
         slider = GetComponent<Slider>();
 
-        slocation[0] = new Vector3(2f, 5.8f, 1.4f);
-        slocation[1] = new Vector3(3.5f, 5.8f, 1.4f);
-        slocation[2] = new Vector3(5f, 5.8f, 1.4f);
-        slocation[3] = new Vector3(6.5f, 5.8f, 1.4f);
-        slocation[4] = new Vector3(8f, 5.8f, 1.4f);
+        slocation[0] = new Vector3(2f, 5.9f, 1.4f);
+        slocation[1] = new Vector3(3.5f, 5.9f, 1.4f);
+        slocation[2] = new Vector3(5f, 5.9f, 1.4f);
+        slocation[3] = new Vector3(6.5f, 5.9f, 1.4f);
+        slocation[4] = new Vector3(8f, 5.9f, 1.4f);
 
         Koreographer.Instance.RegisterForEvents(eventID, TrackEvent);
     }
 
     private void KeybordDection() {
         float currentTime = frameCounter * 100;
-        if(Input.GetKeyDown(KeyCode.D) && TimingSheet_NotePair1!=null) {
+
+        // detect key D (Note pair 1)
+        if(TimingSheet_NotePair1!=null && Input.GetKeyDown(KeyCode.D)) {
             //Debug.Log("current time:" + currentTime);
             foreach (SliderTiming stime in TimingSheet_NotePair1) {
                 // hit
                 if (currentTime >= stime.getArriveTiming() && currentTime <= stime.getLeaveTiming()) {
                     EarnPoint(0);
+                }
+            }
+        }
+
+        // detect key K (Note pair 1)
+        if(TimingSheet_NotePair1!=null && Input.GetKeyDown(KeyCode.K)) {
+            foreach (SliderTiming stime in TimingSheet_NotePair1) {
+                // hit
+                if (currentTime >= stime.getArriveTiming() && currentTime <= stime.getLeaveTiming()) {
+                    EarnPoint(4);
+                }
+            }
+        }
+
+        // detect key F (Note pair 2)
+        if(TimingSheet_NotePair2!=null && Input.GetKeyDown(KeyCode.F)) {
+            foreach (SliderTiming stime in TimingSheet_NotePair2) {
+                // hit
+                if (currentTime >= stime.getArriveTiming() && currentTime <= stime.getLeaveTiming()) {
+                    EarnPoint(1);
+                }
+            }
+        }
+
+        // detect key J (Note pair 2)
+        if(TimingSheet_NotePair2!=null && Input.GetKeyDown(KeyCode.J)) {
+            foreach (SliderTiming stime in TimingSheet_NotePair2) {
+                // hit
+                if (currentTime >= stime.getArriveTiming() && currentTime <= stime.getLeaveTiming()) {
+                    EarnPoint(3);
+                }
+            }
+        }
+
+        // detect key J (Note pair 2)
+        if(TimingSheet_NoteSpace!=null && Input.GetKeyDown(KeyCode.Space)) {
+            foreach (SliderTiming stime in TimingSheet_NoteSpace) {
+                // hit
+                if (currentTime >= stime.getArriveTiming() && currentTime <= stime.getLeaveTiming()) {
+                    EarnPoint(2);
                 }
             }
         }
@@ -130,7 +173,8 @@ public class Controller : MonoBehaviour
         //Debug.Log("eTime:" + eTime);
         
         noteNo = Random.Range(0, 3);
-        noteNo = 0;
+        //Debug.Log("note: "+noteNo);
+        //noteNo = 0;
         switch(noteNo) {
             case 0:
                 slider.GenerateSlider(0, slocation[0], srotation);
@@ -140,11 +184,11 @@ public class Controller : MonoBehaviour
             case 1:
                 slider.GenerateSlider(1, slocation[1], srotation);
                 slider.GenerateSlider(3, slocation[3], srotation);
-                //TimingSheet_NotePair1.Add(new SliderTiming(aTime, eTime));
+                TimingSheet_NotePair2.Add(new SliderTiming(aTime, eTime));
                 break;
             case 2:
                 slider.GenerateSlider(2, slocation[2], srotation);
-                //TimingSheet_NotePair1.Add(new SliderTiming(aTime, eTime));
+                TimingSheet_NoteSpace.Add(new SliderTiming(aTime, eTime));
                 break;
         }
         
@@ -159,16 +203,12 @@ public class Controller : MonoBehaviour
     }
 
     private void TargetReset() {
-        Debug.Log("Reset");
+        //Debug.Log("Reset");
         Color targetColor = new Color(0f, 0f, 0f, 1f);
-        for(int i=0; i<trackNum; i++) {
-            targetRenders[i].material.color = targetColor;
-        }
-        /*
         foreach (MeshRenderer target in targetRenders) {
             target.material.color = targetColor;
         }
-        */
+        
     }
 
 }
