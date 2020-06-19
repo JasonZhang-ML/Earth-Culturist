@@ -10,16 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -1223223985, guid: aa81bbec85a3f423193272a7c6154986, type: 3}
-  m_Name: GameKoreTrack
+  m_Name: KoreEarthTrack
   m_EditorClassIdentifier: 
-  mEventID: TracksEvent
+  mEventID: Earth
   mEventList:
   - mStartSample: 88200
     mEndSample: 88200
-  - mStartSample: 154350
-    mEndSample: 154350
-  - mStartSample: 220500
-    mEndSample: 220500
+  - mStartSample: 176400
+    mEndSample: 176400
+  - mStartSample: 264600
+    mEndSample: 264600
+  - mStartSample: 330750
+    mEndSample: 330750
   _SerializedPayloadTypes: []
   _ColorPayloads: []
   _ColorPayloadIdxs: 
