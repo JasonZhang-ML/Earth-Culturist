@@ -791,7 +791,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03bbdd24da9772b428f6dcc8ddc84a82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animal_score: 1
+  animal_score: 0
 --- !u!4 &140488448 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4448730430786274, guid: 1ddaf242dd01c744393cf9bd8a9334d1,
@@ -3405,6 +3405,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10488de841f0fc54d89460e41198f0ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Radius: 20
+  Thickness: 10
+  Depth: 1
+  NumberOfSides: 30
+  DrawArchDegrees: 90
+  archMaterial: {fileID: 0}
 --- !u!1001 &812058704
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5903,6 +5909,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e96f84d072116764697a0a950642389f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  S1: 0
+  S2: 0
+  S3: 0
+  S4: 0
+  S5: 0
   eventID: Earth
 --- !u!4 &1229284663
 Transform:

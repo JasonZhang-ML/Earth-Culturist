@@ -13,7 +13,7 @@ public class Earth_Manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     { 
-        InvokeRepeating("random_score", 3, 3);
+        // InvokeRepeating("random_score", 3, 3);
         // Invoke("random_score", 5f);
     }
 
