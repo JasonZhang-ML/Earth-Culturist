@@ -9,13 +9,13 @@ public class Controller : MonoBehaviour
     public string eventID;
     public static int trackNum = 5; 
 
-    public static float sliderLength = 0.2f;
-    public static float trackLength = 4f;
+    public static float sliderLength = 1.09f;
+    public static float trackLength = 84f;
 
-    public static float sliderSpeed = 0.05f;  // x position unity per frame
+    public static float sliderSpeed = 0.5f;  // x position unity per frame
 
     static float arriveTimeConstant = (trackLength - 2 * sliderLength) / sliderSpeed;
-    static float leaveTimeConstant = trackLength / sliderSpeed;
+    static float leaveTimeConstant = (trackLength + sliderLength) / sliderSpeed;
     int noteNo = 0;
     float frameCounter = 0f; 
 
@@ -43,7 +43,7 @@ public class Controller : MonoBehaviour
     MeshRenderer[] targetRenders = new MeshRenderer[trackNum];
     Vector3[] slocation = new Vector3[trackNum];
     //public Vector3[] targetPosition = new Vector3[trackNum];
-    Quaternion srotation = Quaternion.Euler(0f, 0f, -90f);
+    Quaternion[] srotation = new Quaternion[trackNum];
     Slider slider; 
     List<SliderTiming> TimingSheet_NotePair1 = new List<SliderTiming>();
     List<SliderTiming> TimingSheet_NotePair2 = new List<SliderTiming>();
@@ -58,7 +58,7 @@ public class Controller : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         /*
         // slider moving speed test
@@ -77,11 +77,11 @@ public class Controller : MonoBehaviour
         Color targetColor = new Color(255f, 255f, 255f, 0.8f);
         targetRenders[targetType].material.color = targetColor;
         Invoke("TargetReset", 0.1f);
-        //Debug.Log("Hit");
+        Debug.Log("Hit");
     }
 
-    private void LosePoint() {
-        
+    private void LosePoint(int targetType) {
+        Debug.Log("Loss: "+ targetType);
     }
 
     private void MusicGameInit() {
@@ -97,66 +97,170 @@ public class Controller : MonoBehaviour
         /* Init slider*/
         slider = GetComponent<Slider>();
 
-        slocation[0] = new Vector3(2f, 5.9f, 1.4f);
-        slocation[1] = new Vector3(3.5f, 5.9f, 1.4f);
-        slocation[2] = new Vector3(5f, 5.9f, 1.4f);
-        slocation[3] = new Vector3(6.5f, 5.9f, 1.4f);
-        slocation[4] = new Vector3(8f, 5.9f, 1.4f);
+        slocation[0] = new Vector3(-114.91f, 96.42f, 8f);
+        slocation[1] = new Vector3(-63.39f, 135.95f, 8f);
+        slocation[2] = new Vector3(0f, 150f, 8f);
+        slocation[3] = new Vector3(63.39f, 135.95f, 8f);
+        slocation[4] = new Vector3(114.91f, 96.42f, 8f);
+
+        srotation[0] = Quaternion.Euler(0f, 0f, -40.779f);
+        srotation[1] = Quaternion.Euler(0f, 0f, 114.228f);
+        srotation[2] = Quaternion.Euler(0f, 0f, 90f);
+        srotation[3] = Quaternion.Euler(0f, 0f, -114.228f);
+        srotation[4] = Quaternion.Euler(0f, 0f, 40.779f);
 
         Koreographer.Instance.RegisterForEvents(eventID, TrackEvent);
     }
 
     private void KeybordDection() {
         float currentTime = frameCounter * 100;
+        bool[] isKeyPressed = {false, false, false, false, false};
 
         // detect key D (Note pair 1)
         if(TimingSheet_NotePair1!=null && Input.GetKeyDown(KeyCode.D)) {
             //Debug.Log("current time:" + currentTime);
+            isKeyPressed[0] = true;
+            bool isHit = false; 
             foreach (SliderTiming stime in TimingSheet_NotePair1) {
                 // hit
                 if (currentTime >= stime.getArriveTiming() && currentTime <= stime.getLeaveTiming()) {
                     EarnPoint(0);
-                }
+                    isHit = true;
+                    break;
+                } 
+            }
+            // miss
+            if(!isHit) {
+                LosePoint(0);
             }
         }
 
         // detect key K (Note pair 1)
         if(TimingSheet_NotePair1!=null && Input.GetKeyDown(KeyCode.K)) {
+            isKeyPressed[4] = true;
+            bool isHit = false; 
             foreach (SliderTiming stime in TimingSheet_NotePair1) {
                 // hit
                 if (currentTime >= stime.getArriveTiming() && currentTime <= stime.getLeaveTiming()) {
                     EarnPoint(4);
-                }
+                    isHit = true; 
+                    break;
+                } 
+            }
+            // miss
+            if(!isHit) {
+                LosePoint(4);
             }
         }
 
         // detect key F (Note pair 2)
         if(TimingSheet_NotePair2!=null && Input.GetKeyDown(KeyCode.F)) {
+            isKeyPressed[1] = true;
+            bool isHit = false;
             foreach (SliderTiming stime in TimingSheet_NotePair2) {
                 // hit
                 if (currentTime >= stime.getArriveTiming() && currentTime <= stime.getLeaveTiming()) {
                     EarnPoint(1);
-                }
+                    isHit = true; 
+                    break;
+                } 
+            }
+            // miss
+            if(!isHit) {
+                LosePoint(1);
             }
         }
 
         // detect key J (Note pair 2)
         if(TimingSheet_NotePair2!=null && Input.GetKeyDown(KeyCode.J)) {
+            isKeyPressed[3] = true;
+            bool isHit = false;
             foreach (SliderTiming stime in TimingSheet_NotePair2) {
                 // hit
                 if (currentTime >= stime.getArriveTiming() && currentTime <= stime.getLeaveTiming()) {
                     EarnPoint(3);
-                }
+                    isHit = true;
+                    break;
+                } 
+            }
+            // miss
+            if(!isHit) {
+                LosePoint(3);
             }
         }
 
         // detect key J (Note pair 2)
         if(TimingSheet_NoteSpace!=null && Input.GetKeyDown(KeyCode.Space)) {
+            isKeyPressed[2] = true;
+            bool isHit = false;
             foreach (SliderTiming stime in TimingSheet_NoteSpace) {
                 // hit
                 if (currentTime >= stime.getArriveTiming() && currentTime <= stime.getLeaveTiming()) {
                     EarnPoint(2);
-                }
+                    isHit = true; 
+                    break;
+                } 
+            }
+            // miss
+            if(!isHit) {
+                LosePoint(2);
+            }
+        }
+
+        /* If no key pressed, dectecting miss*/
+
+        // Pair1: D
+        if(TimingSheet_NotePair1!=null && !isKeyPressed[0]) {
+            foreach (SliderTiming stime in TimingSheet_NotePair1) {
+                // If currently a slider leaves but no related key pressed
+                if (currentTime >= stime.getArriveTiming() && currentTime <= stime.getLeaveTiming()) {
+                    LosePoint(0);  // lose point in area 0
+                    break;
+                } 
+            }
+        }
+
+        // Pair1: K
+        if(TimingSheet_NotePair1!=null && !isKeyPressed[4]) {
+            foreach (SliderTiming stime in TimingSheet_NotePair1) {
+                // If currently a slider arrives but no related key pressed
+                if (currentTime >= stime.getArriveTiming() && currentTime <= stime.getLeaveTiming()) {
+                    LosePoint(4);  // lose point in area 4
+                    break;
+                } 
+            }
+        }
+
+        // Pair2: F
+        if(TimingSheet_NotePair2!=null && !isKeyPressed[1]) {
+            foreach (SliderTiming stime in TimingSheet_NotePair2) {
+                // If currently a slider arrives but no related key pressed
+                if (currentTime >= stime.getArriveTiming() && currentTime <= stime.getLeaveTiming()) {
+                    LosePoint(1);  // lose point in area 1
+                    break;
+                } 
+            }
+        }
+
+        // Pair2: J
+        if(TimingSheet_NotePair2!=null && !isKeyPressed[3]) {
+            foreach (SliderTiming stime in TimingSheet_NotePair2) {
+                // If currently a slider arrives but no related key pressed
+                if (currentTime >= stime.getArriveTiming() && currentTime <= stime.getLeaveTiming()) {
+                    LosePoint(3);  // lose point in area 3
+                    break;
+                } 
+            }
+        }
+
+        // Space
+        if(TimingSheet_NoteSpace!=null && !isKeyPressed[2]) {
+            foreach (SliderTiming stime in TimingSheet_NoteSpace) {
+                // If currently a slider arrives but no related key pressed
+                if (currentTime >= stime.getArriveTiming() && currentTime <= stime.getLeaveTiming()) {
+                    LosePoint(2);  // lose point in area 2
+                    break;
+                } 
             }
         }
     }
@@ -177,17 +281,17 @@ public class Controller : MonoBehaviour
         //noteNo = 0;
         switch(noteNo) {
             case 0:
-                slider.GenerateSlider(0, slocation[0], srotation);
-                slider.GenerateSlider(4, slocation[4], srotation);
+                slider.GenerateSlider(0, slocation[0], srotation[0]);
+                slider.GenerateSlider(4, slocation[4], srotation[4]);
                 TimingSheet_NotePair1.Add(new SliderTiming(aTime, eTime));
                 break;
             case 1:
-                slider.GenerateSlider(1, slocation[1], srotation);
-                slider.GenerateSlider(3, slocation[3], srotation);
+                slider.GenerateSlider(1, slocation[1], srotation[1]);
+                slider.GenerateSlider(3, slocation[3], srotation[3]);
                 TimingSheet_NotePair2.Add(new SliderTiming(aTime, eTime));
                 break;
             case 2:
-                slider.GenerateSlider(2, slocation[2], srotation);
+                slider.GenerateSlider(2, slocation[2], srotation[2]);
                 TimingSheet_NoteSpace.Add(new SliderTiming(aTime, eTime));
                 break;
         }
