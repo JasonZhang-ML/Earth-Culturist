@@ -7,7 +7,6 @@ public class Slider : MonoBehaviour
     public GameObject[] sliderPrefab = new GameObject[Controller.trackNum]; 
     //GameObject[] sliderModel; 
     List<GameObject> sliderModel = new List<GameObject>();
-    List<int> sliderType = new List<int>();
     //int sliderNum = 0; 
     public float destroy_radius_sqr = 2600f;
 
@@ -22,7 +21,6 @@ public class Slider : MonoBehaviour
 
     public void GenerateSlider(int type, Vector3 location, Quaternion rotation) {
         sliderModel.Add(Instantiate(sliderPrefab[type], location, rotation) as GameObject);
-        sliderType.Add(type);
         //sliderNum++;
     }
 
