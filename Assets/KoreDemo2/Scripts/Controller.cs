@@ -14,7 +14,7 @@ public class Controller : MonoBehaviour
     public static float sliderLength = 1.09f;
     public static float trackLength = 84f;
 
-    public static float sliderSpeed = 0.5f;  // x position unity per frame
+    public static float sliderSpeed = -10f;  // x position unity per frame
 
     static float arriveTimeConstant = (trackLength - 2 * sliderLength) / sliderSpeed;
     static float leaveTimeConstant = (trackLength + sliderLength) / sliderSpeed;
@@ -102,7 +102,7 @@ public class Controller : MonoBehaviour
     }
 
     private void LosePoint(int targetType) {
-        Debug.Log("Loss: "+ targetType);
+        // Debug.Log("Loss: "+ targetType);
     }
 
     private void MusicGameInit() {
@@ -118,17 +118,17 @@ public class Controller : MonoBehaviour
         /* Init slider*/
         slider = GetComponent<Slider>();
 
-        slocation[0] = new Vector3(-114.91f, 96.42f, 8f);
-        slocation[1] = new Vector3(-63.39f, 135.95f, 8f);
-        slocation[2] = new Vector3(0f, 150f, 8f);
-        slocation[3] = new Vector3(63.39f, 135.95f, 8f);
-        slocation[4] = new Vector3(114.91f, 96.42f, 8f);
+        slocation[0] = new Vector3(-114.91f, 96.42f, 10f);
+        slocation[1] = new Vector3(-63.39f, 135.95f, 10f);
+        slocation[2] = new Vector3(0f, 150f, 10f);
+        slocation[3] = new Vector3(63.39f, 135.95f, 10f);
+        slocation[4] = new Vector3(114.91f, 96.42f, 10f);
 
-        srotation[0] = Quaternion.Euler(0f, 0f, -40.779f);
-        srotation[1] = Quaternion.Euler(0f, 0f, 114.228f);
+        srotation[0] = Quaternion.Euler(0f, 0f, 140f);
+        srotation[1] = Quaternion.Euler(0f, 0f, 115f);
         srotation[2] = Quaternion.Euler(0f, 0f, 90f);
-        srotation[3] = Quaternion.Euler(0f, 0f, -114.228f);
-        srotation[4] = Quaternion.Euler(0f, 0f, 40.779f);
+        srotation[3] = Quaternion.Euler(0f, 0f, 65f);
+        srotation[4] = Quaternion.Euler(0f, 0f, 40f);
 
         Koreographer.Instance.RegisterForEvents(eventID, TrackEvent);
     }
