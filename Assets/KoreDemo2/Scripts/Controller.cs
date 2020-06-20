@@ -6,18 +6,18 @@ using Random = UnityEngine.Random;
 
 public class Controller : MonoBehaviour
 {
-    public float S1, S2, S3, S4, S5 = 0f;
-    private float unit_1,unit_2,unit_3,unit_4,unit_5 = 40f; 
+    private float[] unit = {40f, 40f, 40f, 40f, 40f};
+    private float[] score = new float[5];
     public string eventID;
     public static int trackNum = 5; 
 
-    public static float sliderLength = 1.09f;
+    public static float sliderLength = 1.5f;
     public static float trackLength = 84f;
 
-    public static float sliderSpeed = -10f;  // x position unity per frame
+    public static float sliderSpeed = -0.5f;  // x position unity per frame
 
-    static float arriveTimeConstant = (trackLength - 2 * sliderLength) / sliderSpeed;
-    static float leaveTimeConstant = (trackLength + sliderLength) / sliderSpeed;
+    static float arriveTimeConstant = (trackLength - 2 * sliderLength) / (-1f*sliderSpeed);
+    static float leaveTimeConstant = (trackLength + sliderLength) / (-1f*sliderSpeed);
     int noteNo = 0;
     float frameCounter = 0f; 
 
@@ -79,7 +79,10 @@ public class Controller : MonoBehaviour
         Color targetColor = new Color(255f, 255f, 255f, 0.8f);
         targetRenders[targetType].material.color = targetColor;
         Invoke("TargetReset", 0.1f);
-        Debug.Log("Hit");
+        Debug.Log("Hit" + targetType);
+
+        score[targetType] += unit[targetType] * 0.01f;
+        /*
         switch (targetType)
         {
             case 0: S1 += unit_1 * 0.01f; break;
@@ -89,7 +92,8 @@ public class Controller : MonoBehaviour
             case 4: S5 += unit_5 * 0.01f; break;
             default: break;
         }
-        Update_Scores(S1, S2, S3, S4, S5);
+        */
+        Update_Scores(score[0], score[1], score[2], score[3], score[4]);
     }
 
     void Update_Scores(float S1,float S2,float S3,float S4,float S5)
