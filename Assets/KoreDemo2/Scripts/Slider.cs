@@ -28,7 +28,7 @@ public class Slider : MonoBehaviour
         if(sliderModel!=null) {
             for(int i=0; i<sliderModel.Count; i++) {
                 if(sliderModel[i]!=null) {
-                    sliderModel[i].transform.Translate(Vector3.right * Time.deltaTime * Controller.sliderSpeed, Space.Self);
+                    sliderModel[i].transform.Translate(Vector3.right * Controller.sliderSpeed, Space.Self);
                     // destroy slider when it out of hit the earth                                                       
                     if(sliderModel[i].transform.position.sqrMagnitude <= destroy_radius_sqr)
                         GameObject.Destroy(sliderModel[i], 0.001f);
