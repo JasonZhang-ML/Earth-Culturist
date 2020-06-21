@@ -17,7 +17,7 @@ public class Controller : MonoBehaviour
 
     public static float sliderLength = 1.5f;
     public static float trackLength = 84f;
-    public static float sliderSpeed = -0.3f;  // x position unity per frame
+    public static float sliderSpeed = -0.6f;  // x position unity per frame
     public static float targetLowerBound = 3900f;  // Sqr value, 64.25+100 // 63 
     public static float targetUpperBound = 4900f; // Sqr value, 69.25^2+100  // 70
 

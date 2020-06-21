@@ -10592,7 +10592,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 13
-  m_Text: Winner!
+  m_Text: Reborn
 --- !u!222 &1933681212
 CanvasRenderer:
   m_ObjectHideFlags: 0
