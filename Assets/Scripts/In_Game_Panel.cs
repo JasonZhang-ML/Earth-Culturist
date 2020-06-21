@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI; //Need this for calling UI scripts
+using SonicBloom.Koreo;
 
 public class In_Game_Panel : MonoBehaviour {
 
@@ -13,6 +14,8 @@ public class In_Game_Panel : MonoBehaviour {
     Text timeText; //Will assign our Time Text to this variable so we can modify the text it displays.
     [SerializeField]
     Text scoreText; //Will assign our Time Text to this variable so we can modify the text it displays.
+    [SerializeField]
+    Text Over_Score; //Will assign our Time Text to this variable so we can modify the text it displays.
 
     bool isPaused; //Used to determine paused state
     public float Final_Score;    
@@ -52,18 +55,35 @@ public class In_Game_Panel : MonoBehaviour {
     void Gameover()
     {
         UIPanel_WIN.gameObject.SetActive(true);
+        m_pause = GameObject.Find("MusicPlayer").GetComponent<AudioSource>();
+        m_pause.Pause();
         Time.timeScale = 0f; //pause the game
+        Over_Score.text = System.Math.Ceiling(Final_Score * 1000f).ToString();
+
     }
+
+
+    AudioSource m_pause;
+    float timeNow = 0;
 
     public void Pause()
     {
+        m_pause = GameObject.Find("MusicPlayer").GetComponent<AudioSource>();
+        m_pause.Pause();
+
+        timeNow = m_pause.time;
         isPaused = true;
         UIPanel.gameObject.SetActive(true); //turn on the pause menu
         Time.timeScale = 0f; //pause the game
+
+        // SonicBloom.Koreo.Players.SimpleMusicPlayer.Destroy();
+        
     }
 
     public void UnPause()
     {
+        m_pause.Play();
+        m_pause.time = timeNow;
         isPaused = false;
         UIPanel.gameObject.SetActive(false); //turn off pause menu
         Time.timeScale = 1f; //resume game
@@ -74,8 +94,12 @@ public class In_Game_Panel : MonoBehaviour {
         Application.Quit();
     }
 
-    public void Restart()
+    public void Ryhthm_game()
     {
         Application.LoadLevel(0);
+    }
+    public void Random_Earth()
+    {
+        Application.LoadLevel(1);
     }
 }
