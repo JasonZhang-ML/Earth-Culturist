@@ -13,7 +13,7 @@ public class Controller : MonoBehaviour
     public static float earthRadius = 51f; 
     public static float laneRadius = 66f; 
     public static int trackNum = 5; 
-    public static int sliderIndex = 0; 
+    // public static int sliderIndex = 0; 
 
     public static float sliderLength = 1.5f;
     public static float trackLength = 84f;
@@ -45,14 +45,10 @@ public class Controller : MonoBehaviour
     void FixedUpdate()
     {    
         frameCounter+= 0.01f;  // Recording current time (frame)
-        KeybordDection();
+        Game_run();
     }
 
     private void EarnPoint(int targetType) {
-
-        GameObject.Destroy(Slider.sliderModel[sliderIndex], 0f);
-        sliderIndex++;
-
         /*
         Color targetColor = new Color(255f, 255f, 255f, 0.8f);
         targetRenders[targetType].material.color = targetColor;
@@ -117,71 +113,34 @@ public class Controller : MonoBehaviour
         Koreographer.Instance.RegisterForEvents(eventID, TrackEvent);
     }
 
-    private void KeybordDection() {
-        //float currentTime = frameCounter * 100;
-        HitDetermine();
-        MissDetermine();
+
+    void Hited_success(int sliderIndex) {
+        GameObject.Destroy(Slider.sliderModel[sliderIndex], 0f);
+        EarnPoint(Slider.sliderType[sliderIndex]);
     }
-
-    private void HitDetermine() {
-        if(Slider.sliderModel.Count > 0) {
-            if(Slider.sliderModel.Count >= sliderIndex+1
+    private void Game_run() {
+        int sliderIndex = 0;
+        while(sliderIndex < Slider.sliderModel.Count){
+            // hited
+            if(Slider.sliderModel[sliderIndex] != null
             && Slider.sliderModel[sliderIndex].transform.position.sqrMagnitude>=targetLowerBound
-            && Slider.sliderModel[sliderIndex].transform.position.sqrMagnitude<=targetUpperBound) 
+            && Slider.sliderModel[sliderIndex].transform.position.sqrMagnitude<=targetUpperBound)
             {
-                if(Input.GetKeyDown(KeyCode.D)) {
-                    if(Slider.sliderType[sliderIndex] == 0)
-                        EarnPoint(0);
-                    else {
-                        //LosePoint(0);  // if pressed the key but wrong target
-                    }
-                }
-
-                if(Input.GetKeyDown(KeyCode.F)) {
-                    if(Slider.sliderType[sliderIndex] == 1)
-                        EarnPoint(1);
-                    else {
-                        //LosePoint(1);  // if pressed the key but wrong target
-                    }
-                }
-
-                if(Input.GetKeyDown(KeyCode.Space)) {
-                    if(Slider.sliderType[sliderIndex] == 2)
-                        EarnPoint(2);
-                    else {
-                        //LosePoint(2);  // if pressed the key but wrong target
-                    }
-                }
-
-                if(Input.GetKeyDown(KeyCode.J)) {
-                    if(Slider.sliderType[sliderIndex] == 3)
-                        EarnPoint(3);
-                    else {
-                        //LosePoint(3);  // if pressed the key but wrong target
-                    }
-                }
-
-                if(Input.GetKeyDown(KeyCode.K)) {
-                    if(Slider.sliderType[sliderIndex] == 4)
-                        EarnPoint(4);
-                    else {
-                        //LosePoint(4);  // if pressed the key but wrong target
+                // which TracK?
+                for (int i =0;i<5;i++)
+                {
+                    if (Slider.sliderType[sliderIndex] == i && Tap_Effect._instance.taps[i] == true)
+                    {
+                        Hited_success(sliderIndex);
                     }
                 }
             }
-        }
-    }
-
-    private void MissDetermine() {
-        if(Slider.sliderModel.Count > 0) {
-            if(Slider.sliderModel.Count >= sliderIndex+1 
-               && Slider.sliderModel[sliderIndex].transform.position.sqrMagnitude < targetLowerBound) {
-                   int type = Slider.sliderType[sliderIndex];
-                   StartCoroutine(Crash(type));  // lose point when slider crashes
-
-                   // if a slider pass the target area without destoryed, we don't care it anymore
-                   Controller.sliderIndex++; 
-            } 
+            else if(Slider.sliderModel[sliderIndex] != null && Slider.sliderModel[sliderIndex].transform.position.sqrMagnitude < targetLowerBound)
+            {
+                int type = Slider.sliderType[sliderIndex];
+                StartCoroutine(Crash(type));  // lose point when slider crashes
+            }
+            ++sliderIndex;
         }
     }
 
