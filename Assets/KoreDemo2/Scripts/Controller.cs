@@ -17,9 +17,9 @@ public class Controller : MonoBehaviour
 
     public static float sliderLength = 1.5f;
     public static float trackLength = 84f;
-    public static float sliderSpeed = -0.2f;  // x position unity per frame
-    public static float targetLowerBound = 4456f;  // Sqr value, 66^2+100
-    public static float targetUpperBound = 4656.25f; // Sqr value, 67.5^2+100  
+    public static float sliderSpeed = -0.6f;  // x position unity per frame
+    public static float targetLowerBound = 4220f;  // Sqr value, 64.25+100
+    public static float targetUpperBound = 4895.6f; // Sqr value, 69.25^2+100  
 
     static float arriveTimeConstant = (trackLength - 2 * sliderLength) / (-sliderSpeed);
     static float leaveTimeConstant = (trackLength + sliderLength) / (-sliderSpeed);
@@ -188,7 +188,7 @@ public class Controller : MonoBehaviour
     IEnumerator Crash(int sliderType) {
         // calculate timing of slider crashes on the earth, lose score
         float crashTiming = inverseFPS * (laneRadius - earthRadius) / (-sliderSpeed);
-
+        Debug.Log(crashTiming);
         yield return new WaitForSeconds(crashTiming);
         LosePoint(sliderType);
         //Debug.Log("crash");
@@ -205,9 +205,13 @@ public class Controller : MonoBehaviour
         //Debug.Log("aTime:" + aTime);
         //Debug.Log("eTime:" + eTime);
         
-        noteNo = Random.Range(0, 3);
+        noteNo = Random.Range(0, trackNum);
+        //noteNo = 1;
+        slider.GenerateSlider(noteNo, slocation[noteNo], srotation[noteNo]);
         //Debug.Log("note: "+noteNo);
         //noteNo = 0;
+        /*
+        noteNo = Random.Range(0, 3);
         switch(noteNo) {
             case 0:
                 slider.GenerateSlider(0, slocation[0], srotation[0]);
@@ -221,6 +225,7 @@ public class Controller : MonoBehaviour
                 slider.GenerateSlider(2, slocation[2], srotation[2]);
                 break;
         }
+        */
     }
 
     private void TargetReset() {
