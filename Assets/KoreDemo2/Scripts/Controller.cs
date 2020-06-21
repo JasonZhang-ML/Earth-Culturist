@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 public class Controller : MonoBehaviour
 {
-    private float[] unit = {50f, 50f, 50f, 50f, 50f};
+    private float[] unit = {5f, 5f, 5f, 5f, 5f};
     private float[] score = new float[5];
     public string eventID;
     public float inverseFPS = 0.025f;  // FPS = 40
@@ -17,9 +17,9 @@ public class Controller : MonoBehaviour
 
     public static float sliderLength = 1.5f;
     public static float trackLength = 84f;
-    public static float sliderSpeed = -0.6f;  // x position unity per frame
-    public static float targetLowerBound = 4220f;  // Sqr value, 64.25+100
-    public static float targetUpperBound = 4895.6f; // Sqr value, 69.25^2+100  
+    public static float sliderSpeed = -0.3f;  // x position unity per frame
+    public static float targetLowerBound = 3900f;  // Sqr value, 64.25+100 // 63 
+    public static float targetUpperBound = 4900f; // Sqr value, 69.25^2+100  // 70
 
     static float arriveTimeConstant = (trackLength - 2 * sliderLength) / (-sliderSpeed);
     static float leaveTimeConstant = (trackLength + sliderLength) / (-sliderSpeed);
@@ -132,6 +132,13 @@ public class Controller : MonoBehaviour
                     if (Slider.sliderType[sliderIndex] == i && Tap_Effect._instance.taps[i] == true)
                     {
                         Hited_success(sliderIndex);
+                        // Hited 
+                        // Tap_Effect._instance.Target_Change_Color_a(i);
+                        // Tap_Effect._instance.Lane_Change_Color_a();
+                    }
+                    else {
+                        // Tap_Effect._instance.Lane_Reset_Color_a();
+                        // Tap_Effect._instance.Target_Reset_Color_a(i);
                     }
                 }
             }
@@ -139,6 +146,8 @@ public class Controller : MonoBehaviour
             {
                 int type = Slider.sliderType[sliderIndex];
                 StartCoroutine(Crash(type));  // lose point when slider crashes
+
+                // Tap_Effect._instance.Lane_Reset_Color_a();
             }
             ++sliderIndex;
         }

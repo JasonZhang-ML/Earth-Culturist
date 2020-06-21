@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI; //Need this for calling UI scripts
 using SonicBloom.Koreo;
+using UnityEngine.SceneManagement;
 
 public class In_Game_Panel : MonoBehaviour {
 
@@ -39,7 +40,7 @@ public class In_Game_Panel : MonoBehaviour {
                 + City_Change._instance.city_score;
 
         timeText.text = System.Math.Round(Time.timeSinceLevelLoad, 0).ToString() + " s";  //Tells us the time since the scene loaded
-        scoreText.text =  System.Math.Ceiling(Final_Score * 1000f).ToString();
+        scoreText.text =  System.Math.Ceiling(Final_Score * 10000f).ToString();
 
         //If player presses escape and game is not paused. Pause game. If game is paused and player presses escape, unpause.
         if(Input.GetKeyDown(KeyCode.Escape) && !isPaused)
@@ -58,7 +59,7 @@ public class In_Game_Panel : MonoBehaviour {
         m_pause = GameObject.Find("MusicPlayer").GetComponent<AudioSource>();
         m_pause.Pause();
         Time.timeScale = 0f; //pause the game
-        Over_Score.text = System.Math.Ceiling(Final_Score * 1000f).ToString();
+        Over_Score.text = System.Math.Ceiling(Final_Score * 10000f).ToString();
 
     }
 
@@ -96,10 +97,13 @@ public class In_Game_Panel : MonoBehaviour {
 
     public void Ryhthm_game()
     {
-        Application.LoadLevel(0);
+        // Application.LoadLevel(0);
+        SceneManager.LoadScene(0);
+        m_pause.Play();
     }
     public void Random_Earth()
     {
-        Application.LoadLevel(1);
+        SceneManager.LoadScene(1);
+        m_pause.Play();
     }
 }

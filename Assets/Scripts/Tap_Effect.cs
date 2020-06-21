@@ -78,6 +78,7 @@ public class Tap_Effect : MonoBehaviour
                 taps[i] = false;
             }
         }
+        Tap_Effect._instance.Lane_Reset_Color_a();
     }
     Vector3[] GetBoxColliderVertexPositions (BoxCollider boxcollider) 
     {
@@ -157,6 +158,34 @@ public class Tap_Effect : MonoBehaviour
         w.a = 0.196f;
         go.GetComponent<MeshRenderer>().materials[0].color = w;
     }
+    public void Target_Change_Color_a(int target_id)
+    {
+        GameObject go = GameObject.Find("Target" + (target_id + 1).ToString());
+        Color w = go.GetComponent<MeshRenderer>().material.color;
+        w.a = 0.784f;
+        go.GetComponent<MeshRenderer>().materials[0].color = w;
+    }
 
+    public void Target_Reset_Color_a(int target_id)
+    {
+        GameObject go = GameObject.Find("Target" + (target_id + 1).ToString());
+        Color w = go.GetComponent<Renderer>().materials[0].color;
+        w.a = 0.078f;
+        go.GetComponent<MeshRenderer>().materials[0].color = w;
+    }
+    public void Lane_Change_Color_a()
+    {
+        GameObject go = GameObject.Find("Target Lane");
+        Color w = go.GetComponent<MeshRenderer>().material.color;
+        w.a = 0.392f;
+        go.GetComponent<MeshRenderer>().materials[0].color = w;
+    }
+    public void Lane_Reset_Color_a()
+    {
+        GameObject go = GameObject.Find("Target Lane");
+        Color w = go.GetComponent<Renderer>().materials[0].color;
+        w.a = 0.117f;
+        go.GetComponent<MeshRenderer>().materials[0].color = w;
+    }
 }
  
