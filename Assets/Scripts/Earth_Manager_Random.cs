@@ -13,12 +13,7 @@ public class Earth_Manager_Random : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     { 
-        Earth_Color._instance.ground_score = 0;
-        Earth_Color._instance.water_score = 0;
-        Forest_Change._instance.forest_score = 0;
-        Animal_Scaling._instance.animal_score = 0;
-        City_Change._instance.city_score = 0;
-        InvokeRepeating("random_score", 3, 3);
+        InvokeRepeating("random_score", 3f, 3f);
         // Invoke("random_score", 5f);
     }
 

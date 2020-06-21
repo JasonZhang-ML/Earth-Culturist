@@ -156,7 +156,7 @@ public class Controller : MonoBehaviour
     IEnumerator Crash(int sliderType) {
         // calculate timing of slider crashes on the earth, lose score
         float crashTiming = inverseFPS * (laneRadius - earthRadius) / (-sliderSpeed);
-        Debug.Log(crashTiming);
+        // Debug.Log(crashTiming);
         yield return new WaitForSeconds(crashTiming);
         LosePoint(sliderType);
         //Debug.Log("crash");

@@ -60,7 +60,6 @@ public class In_Game_Panel : MonoBehaviour {
         m_pause.Pause();
         Time.timeScale = 0f; //pause the game
         Over_Score.text = System.Math.Ceiling(Final_Score * 10000f).ToString();
-
     }
 
 
@@ -97,13 +96,18 @@ public class In_Game_Panel : MonoBehaviour {
 
     public void Ryhthm_game()
     {
+        Time.timeScale = 1f; //resume game
         // Application.LoadLevel(0);
-        SceneManager.LoadScene(0);
-        m_pause.Play();
+        // SceneManager.LoadScene(SceneManager.GetActiveScene()) ;
+        SceneManager.LoadScene(0,LoadSceneMode.Single);
+        // SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        // m_pause.Play();
     }
     public void Random_Earth()
     {
-        SceneManager.LoadScene(1);
-        m_pause.Play();
+        Time.timeScale = 1f; //resume game
+        SceneManager.LoadScene(1,LoadSceneMode.Single);
+        // SceneManager.LoadScene(1);
+        // m_pause.Play();
     }
 }
