@@ -6,8 +6,17 @@ public class Tap_Effect : MonoBehaviour
 {
     // Start is called before the first frame update
     
-    
+    public static Tap_Effect _instance;
+    private void Awake()
+    {
+        _instance = this;
+    }
+
+
     BoxCollider[]  Tracks_Boxes  = new BoxCollider[5];
+
+    public bool[] taps = new bool[5];
+
     void Start()
     {
         for (int track_id = 1; track_id<= 5; track_id++){
@@ -16,38 +25,58 @@ public class Tap_Effect : MonoBehaviour
         }
     }
 
+    // public int IsOnTap()
+    // {
+
+    // }
+
     // Update is called once per frame
     void Update()
     {
-        // if(Input.GetTouch(0).deltaPosition.sqrMagnitude >= new Vector2(0.01f, 0.01f).sqrMagnitude)
-        // {
-        	//单指触屏移动
-        	// if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Moved)
-        	// {
-        	// 	Vector3 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
-        	// 	_map.Translate(touchDeltaPosition.x * 5, -touchDeltaPosition.y * 5, 0);
-        	// }
+
+        // int i = 0;
+        // while(i < Input.touchCount){
+        //     Touch t = Input.GetTouch(i);
+        //     if(t.phase == TouchPhase.Began){
+        //         Debug.Log("touch began");
+        //         touches.Add(new touchLocation(t.fingerId, createCircle(t)));
+        //     }else if(t.phase == TouchPhase.Ended){
+        //         Debug.Log("touch ended");
+        //         touchLocation thisTouch = touches.Find(touchLocation => touchLocation.touchId == t.fingerId);
+        //         Destroy(thisTouch.circle);
+        //         touches.RemoveAt(touches.IndexOf(thisTouch));
+        //     }else if(t.phase == TouchPhase.Moved){
+        //         Debug.Log("touch is moving");
+        //         touchLocation thisTouch = touches.Find(touchLocation => touchLocation.touchId == t.fingerId);
+        //         thisTouch.circle.transform.position = getTouchPosition(t.position);
+        //     }
+        //     ++i;
         // }
-        if (Input.GetMouseButton(0) == true)
+        Vector2 pos = Input.mousePosition;
+        bool[] result_on_track = WhichTrackOnTap(pos);
+        KeyCode[] Keys = new KeyCode[5]{KeyCode.D, KeyCode.F, KeyCode.Space, KeyCode.J, KeyCode.K};
+
+        for (int i = 0; i <=4; i++)
         {
-            Vector2 pos = Input.mousePosition;
-            for (int track_id = 0; track_id <= 4; track_id++){
-                if (WhichTrackOnTap(pos, track_id) >= 0)
-                {
-                    Debug.Log(track_id);
-                    Track_Change_Color_a(track_id);
-                }
+            if ((Input.GetMouseButton(0) == true && result_on_track[i] == true) || Input.GetKey(Keys[i]) == true)
+            {
+                Track_Change_Color_a(i);
+            }
+            else{
+                Track_Reset_Color_a(i);
             }
         }
-        else
+
+
+        for (int i = 0; i <=4; i++)
         {
-            for (int i = 0; i <= 4; i++)
-                Track_Reset_Color_a(i);
-        }
-        if (Input.GetMouseButton(1) == true)
-        {
-            // DeBug Code
-            Debug.Log(Input.mousePosition);
+            if ((Input.GetMouseButtonDown(0) == true && result_on_track[i] == true) || Input.GetKeyDown(Keys[i]) == true)
+            {
+                taps[i] = true;
+            }
+            else{
+                taps[i] = false;
+            }
         }
     }
     Vector3[] GetBoxColliderVertexPositions (BoxCollider boxcollider) 
@@ -90,8 +119,9 @@ public class Tap_Effect : MonoBehaviour
         return u + v <= 1 ;
     }
 
-    int WhichTrackOnTap(Vector3 pos, int track_id)
+    bool[] WhichTrackOnTap(Vector3 pos)
     {
+        bool[] isOnTrack =  new bool[5];
         if (Input.multiTouchEnabled == true)
         {
             //
@@ -99,28 +129,20 @@ public class Tap_Effect : MonoBehaviour
         Vector2[] screens = new Vector2[4];
         Vector3[] vertexes  = new Vector3[4];
 
-        vertexes = GetBoxColliderVertexPositions(Tracks_Boxes[track_id]);
-        for (int i = 0; i < 4; i++)
-        {
-            screens[i] = Camera.main.WorldToScreenPoint(vertexes[i]);
+        for (int i = 0; i <= 4; i++){
+            vertexes = GetBoxColliderVertexPositions(Tracks_Boxes[i]);
+            for (int j = 0; j < 4; j++)
+            {
+                screens[j] = Camera.main.WorldToScreenPoint(vertexes[j]);
+            }
+            bool isInRect = false;
+            isInRect =  PointinTriangle(screens[0], screens[1], screens[2], pos) || PointinTriangle(screens[1], screens[2], screens[3], pos);
+            isOnTrack[i] = isInRect;
         }
-
-        bool isInRect = false;
-        isInRect =  PointinTriangle(screens[0], screens[1], screens[2], pos) || PointinTriangle(screens[1], screens[2], screens[3], pos);
-        // // debug code
-        // if( track_id == 0)
-        // {
-        //     for(int i =0;i<=3;i++)
-        //         Debug.Log("Lane1:" + screens[i].ToString());
-        // }
-        
-        if (isInRect == true)
-            return track_id;
-        else
-            return -1;
+        return isOnTrack;
     }
 
-    void Track_Change_Color_a(int track_id)
+    public void Track_Change_Color_a(int track_id)
     {
         GameObject go = GameObject.Find("Track" + (track_id + 1).ToString());
         Color w = go.GetComponent<MeshRenderer>().material.color;
