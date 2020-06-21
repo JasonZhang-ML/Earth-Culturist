@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Earth_1.unity
     guid: c0b89b6c31df26149a306bdd7449aeea
   - enabled: 1
-    path: Assets/Scenes/Earth.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
+    path: Assets/Scenes/Earth_1.unity
+    guid: c0b89b6c31df26149a306bdd7449aeea
   m_configObjects: {}
