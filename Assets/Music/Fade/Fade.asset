@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: -2076007791, guid: aa81bbec85a3f423193272a7c6154986, type: 3}
   m_Name: Fade
   m_EditorClassIdentifier: 
-  mSourceClip: {fileID: 8300000, guid: 91d54eaed6bdc204cbe3d55e7cdbaef1, type: 3}
+  mSourceClip: {fileID: 8300000, guid: 87bb507b21904b54690103f1e180d165, type: 3}
   mAudioFilePath: 
   mSampleRate: -1
   mIgnoreLatencyOffset: 1
@@ -28,4 +28,4 @@ MonoBehaviour:
     beatsPerMeasure: 4
     bStartNewMeasure: 1
   mTracks:
-  - {fileID: 11400000, guid: c46662344739da449b0135480ac93c6c, type: 2}
+  - {fileID: 11400000, guid: 0d8857c807e8a8248915c05ab406a410, type: 2}
