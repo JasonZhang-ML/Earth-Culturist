@@ -21,8 +21,8 @@ public class In_Game_Panel : MonoBehaviour {
 
     bool isPaused; //Used to determine paused state
     public float Final_Score;    
-    public float GameTime_over = 20; // Time to win or exit?    
-    public float GameScore_over = -10; // Time to win or exit?    
+    public float timer; // timing 
+    public float GameTime_over = 120f; // Time to win or exit?    
 
     
     bool isOverd;
@@ -39,6 +39,9 @@ public class In_Game_Panel : MonoBehaviour {
 
     void Update ()
     {
+        if (isOverd == false)
+            timer += Time.deltaTime;
+
         // Final Score calculation
         Final_Score = Earth_Color._instance.ground_score 
                 + Earth_Color._instance.water_score
@@ -49,15 +52,19 @@ public class In_Game_Panel : MonoBehaviour {
         timeText.text = System.Math.Round(Time.timeSinceLevelLoad, 0).ToString() + " s";  //Tells us the time since the scene loaded
         scoreText.text =  System.Math.Ceiling(Final_Score * 10000f).ToString();
 
+
         //If player presses escape and game is not paused. Pause game. If game is paused and player presses escape, unpause.
         if(Input.GetKeyDown(KeyCode.Escape) && !isPaused)
             Pause();
         else if(Input.GetKeyDown(KeyCode.Escape) && isPaused)
             UnPause();
-        if(System.Math.Round(Time.timeSinceLevelLoad) >= GameTime_over)
+
+        if(timer > GameTime_over)
+        {
+            Debug.Log(timer);
+            timer = 0f;
             Gameover();
-        if(Final_Score <= GameScore_over)
-            Gameover();
+        }
     }
 
     void Gameover()
