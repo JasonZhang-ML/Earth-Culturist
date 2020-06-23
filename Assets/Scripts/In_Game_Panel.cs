@@ -79,7 +79,7 @@ public class In_Game_Panel : MonoBehaviour {
 
             Over_Score.text = System.Math.Ceiling(Final_Score * 10000f).ToString();
 
-            Music_Effect._instance.Win_Effect();
+            Tap_Audio_Effect._instance.Win_Effect();
 
             isOverd = true;
         }

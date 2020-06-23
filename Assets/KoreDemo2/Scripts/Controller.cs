@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 public class Controller : MonoBehaviour
 {
-    private float[] unit = {5f, 5f, 5f, 5f, 5f};
+    private float[] unit = {5f, 5f, 5f, 5f, 5f}; // earn 0.02 earn 0.01
     private float[] score = new float[5];
     public string eventID;
     public float inverseFPS = 0.025f;  // FPS = 40
@@ -133,7 +133,7 @@ public class Controller : MonoBehaviour
                     {
                         Hited_success(sliderIndex);
                         // Hited 
-                        Music_Effect._instance.Tap_Music_Effect();
+                        Tap_Audio_Effect._instance.Tap_Music_Effect();
                         // Tap_Effect._instance.Target_Change_Color_a(i);
                         // Tap_Effect._instance.Lane_Change_Color_a();
                     }
@@ -160,6 +160,7 @@ public class Controller : MonoBehaviour
         // Debug.Log(crashTiming);
         yield return new WaitForSeconds(crashTiming);
         LosePoint(sliderType);
+        // Tap_Audio_Effect._instance.Miss_Effect();
         //Debug.Log("crash");
     }
 
