@@ -133,6 +133,7 @@ public class Controller : MonoBehaviour
                     {
                         Hited_success(sliderIndex);
                         // Hited 
+                        Music_Effect._instance.Tap_Music_Effect();
                         // Tap_Effect._instance.Target_Change_Color_a(i);
                         // Tap_Effect._instance.Lane_Change_Color_a();
                     }
