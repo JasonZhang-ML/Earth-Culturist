@@ -1,0 +1,3 @@
+R = 66: new Vector3(-50.5589f, 42.4239f, 10f).sqrMagnitude = 4456
+R = 50: new Vector3(0f, 50f, 10f).sqrMagnitude = 2600
+R = 50: new Vector3(38.3022f, 32.1393f, 10f).sqrMagnitude =2600
